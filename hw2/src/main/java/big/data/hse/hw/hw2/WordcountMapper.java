@@ -1,0 +1,25 @@
+package big.data.hse.hw.hw2;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+/**
+ * Created by sievmi on 23.09.18
+ */
+
+public class WordcountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+    public static final IntWritable ONE = new IntWritable(1);
+
+    @Override
+    protected void map(LongWritable offset, Text line, Context context)
+            throws IOException, InterruptedException {
+        for (String word : line.toString().split(" ")) {
+            context.write(new Text(word), ONE);
+        }
+    }
+}
