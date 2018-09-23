@@ -47,7 +47,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ch.cern.awg.big.data.hse.hw.hw2.Driver</mainClass>
+                            <mainClass>big.data.hse.hw.hw2.Driver</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
