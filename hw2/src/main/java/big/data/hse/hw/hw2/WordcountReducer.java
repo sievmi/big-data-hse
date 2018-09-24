@@ -17,10 +17,10 @@ public class WordcountReducer extends Reducer<Text, IntWritable, Text, DoubleWri
     protected void reduce(Text key, Iterable<IntWritable> values, Context context)
             throws IOException, InterruptedException {
 
-        int sum = 0;
+        long sum = 0;
         int count = 0;
         for (IntWritable current : values) {
-            sum += current.get();
+            sum += (long)current.get();
             count += 1;
         }
         context.write(key, new DoubleWritable(sum * 1.0 / count));
