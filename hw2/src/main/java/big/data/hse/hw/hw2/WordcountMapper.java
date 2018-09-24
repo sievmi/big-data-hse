@@ -12,13 +12,10 @@ import org.apache.hadoop.mapreduce.Mapper;
  */
 
 public class WordcountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
-
-    public static final IntWritable ONE = new IntWritable(1);
-
     @Override
     protected void map(LongWritable offset, Text line, Context context)
             throws IOException, InterruptedException {
-        String[] words = line.toString().split(" ");
+        String[] words = line.toString().split("\\W+");
         IntWritable textLength = new IntWritable(words.length);
         for (String word : words) {
             context.write(new Text(word), textLength);
