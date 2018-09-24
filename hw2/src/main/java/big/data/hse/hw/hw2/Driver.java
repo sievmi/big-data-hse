@@ -38,57 +38,71 @@ public class Driver extends Configured implements Tool {
     public int run(String[] args) throws Exception {
 
         Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "Wordcount");
+        Job job1 = Job.getInstance(conf, "Wordcount");
 
-        job.setJarByClass(Driver.class);
+        job1.setJarByClass(Driver.class);
 
-        logger.info("job " + job.getJobName() + " [" + job.getJar()
+        logger.info("job " + job1.getJobName() + " [" + job1.getJar()
                 + "] started with the following arguments: "
                 + Arrays.toString(args));
 
         if (args.length < 2) {
             logger.warn("to run this jar are necessary at 2 parameters \""
-                    + job.getJar()
+                    + job1.getJar()
                     + " input_files output_directory");
             return 1;
         }
 
-        job.setMapperClass(WordcountMapper.class);
-        logger.info("mapper class is " + job.getMapperClass());
+        job1.setMapperClass(WordcountMapper.class);
+        logger.info("mapper class is " + job1.getMapperClass());
 
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(IntWritable.class);
-        logger.info("mapper output key class is " + job.getMapOutputKeyClass());
-        logger.info("mapper output value class is " + job.getMapOutputValueClass());
+        job1.setMapOutputKeyClass(Text.class);
+        job1.setMapOutputValueClass(IntWritable.class);
+        logger.info("mapper output key class is " + job1.getMapOutputKeyClass());
+        logger.info("mapper output value class is " + job1.getMapOutputValueClass());
 
-        job.setReducerClass(WordcountReducer.class);
-        logger.info("reducer class is " + job.getReducerClass());
+        job1.setReducerClass(WordcountReducer.class);
+        logger.info("reducer class is " + job1.getReducerClass());
         // job.setCombinerClass(WordcountReducer.class);
         // logger.info("combiner class is " + job.getCombinerClass());
         //When you are not runnign any Reducer
         //OR 	job.setNumReduceTasks(0);
         //		logger.info("number of reduce task is " + job.getNumReduceTasks());
 
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(DoubleWritable.class);
-        logger.info("output key class is " + job.getOutputKeyClass());
-        logger.info("output value class is " + job.getOutputValueClass());
+        job1.setOutputKeyClass(Text.class);
+        job1.setOutputValueClass(DoubleWritable.class);
+        logger.info("output key class is " + job1.getOutputKeyClass());
+        logger.info("output value class is " + job1.getOutputValueClass());
 
-        job.setInputFormatClass(TextInputFormat.class);
-        logger.info("input format class is " + job.getInputFormatClass());
+        job1.setInputFormatClass(TextInputFormat.class);
+        logger.info("input format class is " + job1.getInputFormatClass());
 
-        job.setOutputFormatClass(TextOutputFormat.class);
-        logger.info("output format class is " + job.getOutputFormatClass());
+        job1.setOutputFormatClass(TextOutputFormat.class);
+        logger.info("output format class is " + job1.getOutputFormatClass());
 
         Path filePath = new Path(args[0]);
         logger.info("input path " + filePath);
-        FileInputFormat.setInputPaths(job, filePath);
+        FileInputFormat.setInputPaths(job1, filePath);
 
         Path outputPath = new Path(args[1]);
         logger.info("output path " + outputPath);
-        FileOutputFormat.setOutputPath(job, outputPath);
+        FileOutputFormat.setOutputPath(job1, outputPath);
 
-        job.waitForCompletion(true);
+        job1.waitForCompletion(true);
+
+        Configuration conf2 = new Configuration();
+        Job job2 = Job.getInstance(conf2);
+        job2.setJarByClass(Driver.class);
+        job2.setMapperClass(SortingMapper.class);
+        job2.setNumReduceTasks(0);
+        job2.setOutputKeyClass(Text.class);
+        job2.setOutputValueClass(DoubleWritable.class);
+        Path outputPath1 = new Path(args[1]);
+        FileInputFormat.addInputPath(job2, outputPath);
+        FileOutputFormat.setOutputPath(job2, outputPath1);
+        outputPath1.getFileSystem(conf2).delete(outputPath1, true);
+        job2.waitForCompletion(true);
+
         return 0;
     }
 }
