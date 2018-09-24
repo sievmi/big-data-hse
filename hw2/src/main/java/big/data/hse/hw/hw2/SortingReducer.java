@@ -11,7 +11,6 @@ import java.io.IOException;
  */
 
 public class SortingReducer extends Reducer<Text, DoubleWritable, Text, Text> {
-
     @Override
     protected void reduce(Text key, Iterable<DoubleWritable> values, Context context)
             throws IOException, InterruptedException {
@@ -20,7 +19,6 @@ public class SortingReducer extends Reducer<Text, DoubleWritable, Text, Text> {
         String value = splitted[0].trim();
         String word = splitted.length < 2 ? "empty" : splitted[1];
 
-        context.write(new Text(word), new Text(word + "\t" + value));
+        context.write(new Text(word), new Text(value));
     }
-
 }

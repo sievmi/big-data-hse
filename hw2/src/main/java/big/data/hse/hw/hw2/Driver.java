@@ -5,9 +5,7 @@ import java.util.Arrays;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -94,6 +92,7 @@ public class Driver extends Configured implements Tool {
 
         Configuration conf2 = new Configuration();
         Job job2 = Job.getInstance(conf2);
+        job2.setSortComparatorClass(DecreasingTextComparator.class);
         job2.setJarByClass(Driver.class);
         job2.setMapperClass(SortingMapper.class);
         job2.setReducerClass(SortingReducer.class);
@@ -104,5 +103,18 @@ public class Driver extends Configured implements Tool {
         job2.waitForCompletion(true);
 
         return 0;
+    }
+
+    static class DecreasingTextComparator extends Text.Comparator {
+        public DecreasingTextComparator() {
+        }
+
+        public int compare(WritableComparable a, WritableComparable b) {
+            return -super.compare(a, b);
+        }
+
+        public int compare(byte[] b1, int s1, int l1, byte[] b2, int s2, int l2) {
+            return -super.compare(b1, s1, l1, b2, s2, l2);
+        }
     }
 }
