@@ -46,10 +46,10 @@ public class Driver extends Configured implements Tool {
                 + "] started with the following arguments: "
                 + Arrays.toString(args));
 
-        if (args.length < 2) {
-            logger.warn("to run this jar are necessary at 2 parameters \""
+        if (args.length < 3) {
+            logger.warn("to run this jar are necessary at 3 parameters \""
                     + job1.getJar()
-                    + " input_files output_directory");
+                    + " input_files temp_output_directory final_output_directory");
             return 1;
         }
 
@@ -90,6 +90,8 @@ public class Driver extends Configured implements Tool {
 
         job1.waitForCompletion(true);
 
+        Path finalOutputPath = new Path(args[2]);
+
         Configuration conf2 = new Configuration();
         Job job2 = Job.getInstance(conf2);
         job2.setJarByClass(Driver.class);
@@ -97,10 +99,8 @@ public class Driver extends Configured implements Tool {
         job2.setNumReduceTasks(0);
         job2.setOutputKeyClass(Text.class);
         job2.setOutputValueClass(DoubleWritable.class);
-        Path outputPath1 = new Path(args[1]);
-        FileInputFormat.addInputPath(job2, outputPath);
-        FileOutputFormat.setOutputPath(job2, outputPath1);
-        outputPath1.getFileSystem(conf2).delete(outputPath1, true);
+        FileInputFormat.setInputPaths(job2, outputPath);
+        FileOutputFormat.setOutputPath(job2, finalOutputPath);
         job2.waitForCompletion(true);
 
         return 0;
