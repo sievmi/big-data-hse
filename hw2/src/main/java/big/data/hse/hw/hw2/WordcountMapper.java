@@ -20,6 +20,6 @@ public class WordcountMapper extends Mapper<LongWritable, Text, Text, IntWritabl
         /*for (String word : words) {
             context.write(new Text(word), textLength);
         }*/
-        context.write(new Text(words[0]), textLength);
+        if (words.length > 0) context.write(new Text(words[0]), textLength);
     }
 }
