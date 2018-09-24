@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -69,7 +70,7 @@ public class Driver extends Configured implements Tool {
         //		logger.info("number of reduce task is " + job.getNumReduceTasks());
 
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(DoubleWritable.class);
         logger.info("output key class is " + job.getOutputKeyClass());
         logger.info("output value class is " + job.getOutputValueClass());
 
