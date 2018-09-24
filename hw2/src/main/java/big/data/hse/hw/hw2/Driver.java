@@ -96,7 +96,7 @@ public class Driver extends Configured implements Tool {
         Job job2 = Job.getInstance(conf2);
         job2.setJarByClass(Driver.class);
         job2.setMapperClass(SortingMapper.class);
-        job2.setNumReduceTasks(0);
+        job2.setReducerClass(SortingReducer.class);
         job2.setOutputKeyClass(Text.class);
         job2.setOutputValueClass(DoubleWritable.class);
         FileInputFormat.setInputPaths(job2, outputPath);
