@@ -23,11 +23,9 @@ public class WordcountMapper extends Mapper<LongWritable, Text, Text, IntWritabl
             String[] words = splitted[2].toLowerCase().split("[^\\p{L}]");
 
             IntWritable textLength = new IntWritable(words.length);
-            /*for (String word : words) {
+            for (String word : words) {
                 context.write(new Text(word), textLength);
-            }*/
-
-            context.write(new Text(title), new IntWritable(title.length()));
+            }
         }
     }
 }
