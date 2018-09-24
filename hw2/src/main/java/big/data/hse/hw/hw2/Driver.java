@@ -63,8 +63,8 @@ public class Driver extends Configured implements Tool {
 
         job.setReducerClass(WordcountReducer.class);
         logger.info("reducer class is " + job.getReducerClass());
-        job.setCombinerClass(WordcountReducer.class);
-        logger.info("combiner class is " + job.getCombinerClass());
+        // job.setCombinerClass(WordcountReducer.class);
+        // logger.info("combiner class is " + job.getCombinerClass());
         //When you are not runnign any Reducer
         //OR 	job.setNumReduceTasks(0);
         //		logger.info("number of reduce task is " + job.getNumReduceTasks());
