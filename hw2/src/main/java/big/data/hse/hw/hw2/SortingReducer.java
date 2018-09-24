@@ -17,7 +17,7 @@ public class SortingReducer extends Reducer<Text, DoubleWritable, Text, Text> {
 
         String[] splitted = key.toString().split("_");
         String value = splitted[0].trim();
-        String word = values.iterator().next().toString();
+        String word = splitted[1];
 
         context.write(new Text(word), new Text(value));
     }
