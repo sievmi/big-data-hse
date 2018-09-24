@@ -15,11 +15,15 @@ public class WordcountMapper extends Mapper<LongWritable, Text, Text, IntWritabl
     @Override
     protected void map(LongWritable offset, Text line, Context context)
             throws IOException, InterruptedException {
-        String[] words = line.toString().toLowerCase().split("[^\\p{L}]");
+
+        String[] splitted = line.toString().split("\t", 1);
+        String docId = splitted[0];
+        String[] words = splitted[1].toLowerCase().split("[^\\p{L}]");
+
         IntWritable textLength = new IntWritable(words.length);
         /*for (String word : words) {
             context.write(new Text(word), textLength);
         }*/
-        if (words.length > 0) context.write(new Text(words[0]), textLength);
+        context.write(new Text(docId), textLength);
     }
 }
