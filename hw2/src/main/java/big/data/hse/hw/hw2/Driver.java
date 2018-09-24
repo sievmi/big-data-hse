@@ -56,8 +56,8 @@ public class Driver extends Configured implements Tool {
         job.setMapperClass(WordcountMapper.class);
         logger.info("mapper class is " + job.getMapperClass());
 
-        //job.setMapOutputKeyClass(Text.class);
-        //job.setMapOutputValueClass(IntWritable.class);
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(IntWritable.class);
         logger.info("mapper output key class is " + job.getMapOutputKeyClass());
         logger.info("mapper output value class is " + job.getMapOutputValueClass());
 
