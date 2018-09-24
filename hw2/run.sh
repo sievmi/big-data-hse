@@ -2,7 +2,7 @@
 
 TEMP_OUT_DIR="hw2_results_temp"
 FINAL_OUT_DIR="hw2_results"
-INPUT_DIR="/data/wiki/ru/articles"
+INPUT_DIR="/data/wiki/en/articles"
 
 hadoop fs -rm -r -skipTrash $TEMP_OUT_DIR*
 hadoop fs -rm -r -skipTrash $FINAL_OUT_DIR*
