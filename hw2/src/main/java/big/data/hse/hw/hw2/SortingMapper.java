@@ -16,8 +16,8 @@ public class SortingMapper extends Mapper<LongWritable, Text, Text, DoubleWritab
     protected void map(LongWritable offset, Text text, Context context)
             throws IOException, InterruptedException {
         String[] splitted = text.toString().split("\t");
-        String value = splitted[0];
-        String word = splitted[1];
+        String word = splitted[0];
+        String value = splitted[1];
         context.write(new Text(String.format(value, "%10.2f") + word),
                 new DoubleWritable(Double.parseDouble(value)));
     }
