@@ -17,8 +17,8 @@ public class SortingMapper extends Mapper<LongWritable, Text, Text, DoubleWritab
             throws IOException, InterruptedException {
         String[] splitted = text.toString().split("\t");
         String word = splitted[0];
-        String value = splitted[1];
-        context.write(new Text(String.format(value, "%10.2f") + word),
-                new DoubleWritable(Double.parseDouble(value)));
+        Double value = Double.parseDouble(splitted[1]);
+        context.write(new Text(String.format("%10.2f", value) + " " + word),
+                new DoubleWritable(value));
     }
 }
