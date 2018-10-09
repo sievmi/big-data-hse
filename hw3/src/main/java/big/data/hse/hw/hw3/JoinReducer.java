@@ -24,7 +24,7 @@ public class JoinReducer extends Reducer<Text, Text, IntWritable, Text> {
         for (Text value: values) {
             String[] splitted = value.toString().trim().split("\t");
             if (splitted.length == 3) {
-                placement = Integer.parseInt(splitted[1]);
+                placement = Integer.parseInt(splitted[2]);
             } else if (splitted.length == 4) {
                  x = splitted[2];
                  y = splitted[3];
