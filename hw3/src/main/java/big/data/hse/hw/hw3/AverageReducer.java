@@ -31,8 +31,11 @@ public class AverageReducer extends Reducer<IntWritable, Text, IntWritable, Text
             sumX += x;
             sumY += y;
         }
+        String averageStrX = String.format("%10.2f", sumX / cnt);
+        String averageStrY = String.format("%10.2f", sumY / cnt);
 
-        context.write(key, new Text(sumX + "\t" + sumY));
+
+        context.write(key, new Text(averageStrX + "\t" + averageStrY));
     }
 
 }
