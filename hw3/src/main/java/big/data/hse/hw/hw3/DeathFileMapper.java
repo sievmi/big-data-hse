@@ -19,12 +19,14 @@ public class DeathFileMapper extends Mapper<LongWritable, Text, Text, Text> {
             String[] splitted = line.toString().split(",");
 
             if (splitted.length >= 10) {
+                String matchId = splitted[5];
                 String playerName = splitted[7];
                 String x = splitted[8];
                 String y = splitted[9];
 
 
-                context.write(new Text(playerName), new Text(x + "\t" + y));
+                context.write(new Text(matchId + "#?#" + playerName),
+                        new Text(matchId + "\t" + playerName + "\t" + x + "\t" + y));
             }
         } catch (Exception e) {
 

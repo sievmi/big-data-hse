@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by sievmi on 09.10.18
  */
-public class AggregateFileMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+public class AggregateFileMapper extends Mapper<LongWritable, Text, Text, Text> {
     @Override
     protected void map(LongWritable offset, Text line, Context context)
             throws IOException, InterruptedException {
@@ -20,11 +20,13 @@ public class AggregateFileMapper extends Mapper<LongWritable, Text, Text, IntWri
 
 
             if (splitted.length >= 15) {
+                String matchId = splitted[2];
                 String playerName = splitted[11];
                 int placement = Integer.parseInt(splitted[14]);
 
                 if (placement >= 2 && placement <= 4) {
-                    context.write(new Text(playerName), new IntWritable(placement));
+                    context.write(new Text(matchId + "#?#" + playerName),
+                            new Text(matchId + "\t" + playerName + "\t" + placement));
                 }
             }
         } catch (Exception e) {
