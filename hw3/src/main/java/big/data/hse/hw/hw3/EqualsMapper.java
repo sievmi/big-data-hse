@@ -16,9 +16,9 @@ public class EqualsMapper extends Mapper<LongWritable, Text, Text, Text> {
             throws IOException, InterruptedException {
 
         try {
-            String[] splitted = line.toString().split("\t", 2);
+            String[] splitted = line.toString().trim().split("\t", 2);
 
-            context.write(new Text(splitted[0]), new Text(splitted[1]));
+            context.write(new Text(splitted[0]), new Text(""));
         } catch (Exception e) {
             context.write(new Text("fail"), new Text(":("));
         }
