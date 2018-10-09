@@ -3,6 +3,7 @@ package big.data.hse.hw.hw3;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapreduce.Job;
@@ -97,6 +98,27 @@ public class Driver extends Configured implements Tool {
         Path outputPath = new Path(args[1] + "/join");
         FileOutputFormat.setOutputPath(job3, outputPath);
         job3.waitForCompletion(true);
+
+
+        // 4 job
+        Configuration conf4 = new Configuration();
+        Job job4 = Job.getInstance(conf4);
+        job4.setSortComparatorClass(DecreasingTextComparator.class);
+        job4.setJarByClass(Driver.class);
+        job4.setMapperClass(AverageMapper.class);
+        job4.setMapOutputKeyClass(IntWritable.class);
+        job4.setMapOutputValueClass(Text.class);
+        job4.setReducerClass(AverageReducer.class);
+        job4.setNumReduceTasks(3);
+        job4.setOutputKeyClass(IntWritable.class);
+        job4.setOutputValueClass(Text.class);
+        job4.setInputFormatClass(TextInputFormat.class);
+        job4.setOutputFormatClass(TextOutputFormat.class);
+        Path finalInputPath = new Path(args[1] + "/join/");
+        FileInputFormat.setInputPaths(job4, finalInputPath);
+        Path finalOutputPath = new Path(args[1] + "/final");
+        FileOutputFormat.setOutputPath(job4, finalOutputPath);
+        job4.waitForCompletion(true);
 
         return 0;
     }
