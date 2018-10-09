@@ -55,8 +55,8 @@ public class Driver extends Configured implements Tool {
         job1.setOutputFormatClass(TextOutputFormat.class);
         Path aggregateFilePath = new Path(inputDirPath + "/aggregate.csv");
         FileInputFormat.setInputPaths(job1, aggregateFilePath);
-        Path outputPath = new Path(args[1]);
-        FileOutputFormat.setOutputPath(job1, outputPath);
+        Path aggregateOutputPath = new Path(args[1] + "/aggregate");
+        FileOutputFormat.setOutputPath(job1, aggregateOutputPath);
         job1.waitForCompletion(true);
 
         //second job
@@ -74,7 +74,8 @@ public class Driver extends Configured implements Tool {
         job2.setOutputFormatClass(TextOutputFormat.class);
         Path deathFilePath = new Path(inputDirPath + "/deaths.csv");
         FileInputFormat.setInputPaths(job2, deathFilePath);
-        FileOutputFormat.setOutputPath(job2, outputPath);
+        Path deathsOutputPath = new Path(args[1] + "/deaths");
+        FileOutputFormat.setOutputPath(job2, deathsOutputPath);
         job2.waitForCompletion(true);
 
         return 0;
