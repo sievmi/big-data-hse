@@ -20,7 +20,7 @@ public class EqualsMapper extends Mapper<LongWritable, Text, Text, Text> {
 
             context.write(new Text(splitted[0]), new Text(splitted[1]));
         } catch (Exception e) {
-
+            context.write(new Text("fail"), new Text(":("));
         }
     }
 }
