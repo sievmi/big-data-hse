@@ -18,7 +18,6 @@ public class AggregateFileMapper extends Mapper<LongWritable, Text, Text, Text> 
         try {
             String[] splitted = line.toString().split(",");
 
-
             if (splitted.length >= 15) {
                 String matchId = splitted[2];
                 String playerName = splitted[11];
