@@ -52,8 +52,8 @@ public class Driver extends Configured implements Tool {
         job1.setOutputValueClass(IntWritable.class);
         job1.setInputFormatClass(TextInputFormat.class);
         job1.setOutputFormatClass(TextOutputFormat.class);
-        Path filePath = new Path(args[0]);
-        FileInputFormat.setInputPaths(job1, filePath);
+        Path aggregateFilePath = new Path(args[0] + "/aggregate.csv");
+        FileInputFormat.setInputPaths(job1, aggregateFilePath);
         Path outputPath = new Path(args[1]);
         FileOutputFormat.setOutputPath(job1, outputPath);
         job1.waitForCompletion(true);

@@ -15,16 +15,20 @@ public class AggregateFileMapper extends Mapper<LongWritable, Text, Text, IntWri
     protected void map(LongWritable offset, Text line, Context context)
             throws IOException, InterruptedException {
 
-        String[] splitted = line.toString().split(",");
+        try {
+            String[] splitted = line.toString().split(",");
 
 
-        if (splitted.length >= 15) {
-            String playerName = splitted[11];
-            int placement = Integer.parseInt(splitted[14]);
+            if (splitted.length >= 15) {
+                String playerName = splitted[11];
+                int placement = Integer.parseInt(splitted[14]);
 
-            if (placement >= 2 && placement <= 4) {
-                context.write(new Text(playerName), new IntWritable(placement));
+                if (placement >= 2 && placement <= 4) {
+                    context.write(new Text(playerName), new IntWritable(placement));
+                }
             }
+        } catch (Exception e) {
+
         }
     }
 }
