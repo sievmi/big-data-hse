@@ -8,6 +8,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
@@ -74,7 +75,7 @@ public class Driver extends Configured implements Tool {
         job2.setOutputFormatClass(TextOutputFormat.class);
         Path deathFilePath = new Path(inputDirPath + "/deaths.csv");
         FileInputFormat.setInputPaths(job2, deathFilePath);
-        Path deathsOutputPath = new Path(args[1] + "/filter/deaths");
+        Path deathsOutputPath = new Path(args[1] + "/filter/deaths/");
         FileOutputFormat.setOutputPath(job2, deathsOutputPath);
         job2.waitForCompletion(true);
 
@@ -91,8 +92,9 @@ public class Driver extends Configured implements Tool {
         job3.setOutputValueClass(Text.class);
         job3.setInputFormatClass(TextInputFormat.class);
         job3.setOutputFormatClass(TextOutputFormat.class);
-        Path inputPath = new Path(args[1] + "/filter");
-        FileInputFormat.setInputPaths(job3, inputPath);
+        Path inputPath = new Path(args[1] + "/filter/");
+        FileInputFormat.setInputPaths(job3, new Path(args[1] + "/filter/aggregate/"),
+                new Path(args[1] + "/filter/deaths/"));
         Path outputPath = new Path(args[1] + "/join");
         FileOutputFormat.setOutputPath(job3, outputPath);
         job3.waitForCompletion(true);
