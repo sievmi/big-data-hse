@@ -34,16 +34,17 @@ public class Driver extends Configured implements Tool {
 
     public int run(String[] args) throws Exception {
 
-        Configuration conf = new Configuration();
-        Job job1 = Job.getInstance(conf, "AverageWords");
-
-        job1.setJarByClass(Driver.class);
         if (args.length < 2) {
             logger.warn("to run this jar are necessary at 3 parameters");
             return 1;
         }
 
+        String inputDirPath = args[0];
+
         // first job
+        Configuration conf = new Configuration();
+        Job job1 = Job.getInstance(conf, "AverageWords");
+        job1.setJarByClass(Driver.class);
         job1.setMapperClass(AggregateFileMapper.class);
         job1.setMapOutputKeyClass(Text.class);
         job1.setMapOutputValueClass(IntWritable.class);
@@ -52,26 +53,29 @@ public class Driver extends Configured implements Tool {
         job1.setOutputValueClass(IntWritable.class);
         job1.setInputFormatClass(TextInputFormat.class);
         job1.setOutputFormatClass(TextOutputFormat.class);
-        Path aggregateFilePath = new Path(args[0] + "/aggregate.csv");
+        Path aggregateFilePath = new Path(inputDirPath + "/aggregate.csv");
         FileInputFormat.setInputPaths(job1, aggregateFilePath);
         Path outputPath = new Path(args[1]);
         FileOutputFormat.setOutputPath(job1, outputPath);
         job1.waitForCompletion(true);
 
         //second job
-        /*Path finalOutputPath = new Path(args[2]);
         Configuration conf2 = new Configuration();
         Job job2 = Job.getInstance(conf2);
         job2.setSortComparatorClass(DecreasingTextComparator.class);
         job2.setJarByClass(Driver.class);
-        job2.setMapperClass(SortingMapper.class);
-        job2.setReducerClass(SortingReducer.class);
-        job2.setNumReduceTasks(5);
+        job2.setMapperClass(DeathFileMapper.class);
+        job2.setMapOutputKeyClass(Text.class);
+        job2.setMapOutputValueClass(Text.class);
+        job2.setNumReduceTasks(0);
         job2.setOutputKeyClass(Text.class);
-        job2.setOutputValueClass(DoubleWritable.class);
-        FileInputFormat.setInputPaths(job2, outputPath);
-        FileOutputFormat.setOutputPath(job2, finalOutputPath);
-        job2.waitForCompletion(true);*/
+        job2.setOutputValueClass(Text.class);
+        job2.setInputFormatClass(TextInputFormat.class);
+        job2.setOutputFormatClass(TextOutputFormat.class);
+        Path deathFilePath = new Path(inputDirPath + "/deaths.csv");
+        FileInputFormat.setInputPaths(job2, deathFilePath);
+        FileOutputFormat.setOutputPath(job2, outputPath);
+        job2.waitForCompletion(true);
 
         return 0;
     }
