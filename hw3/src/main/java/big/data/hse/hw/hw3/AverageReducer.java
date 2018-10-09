@@ -51,7 +51,7 @@ public class AverageReducer extends Reducer<IntWritable, Text, IntWritable, Text
 
         double dY = 0;
         for (Double y: arrY) {
-            dX += (y - averageY) * (y - averageY) / (cnt - 1);
+            dY += (y - averageY) * (y - averageY) / (cnt - 1);
         }
         dY = Math.sqrt(dY);
         String dStrY = String.format("%10.2f", dY);

@@ -109,7 +109,7 @@ public class Driver extends Configured implements Tool {
         job4.setMapOutputKeyClass(IntWritable.class);
         job4.setMapOutputValueClass(Text.class);
         job4.setReducerClass(AverageReducer.class);
-        job4.setNumReduceTasks(3);
+        job4.setNumReduceTasks(1);
         job4.setOutputKeyClass(IntWritable.class);
         job4.setOutputValueClass(Text.class);
         job4.setInputFormatClass(TextInputFormat.class);
