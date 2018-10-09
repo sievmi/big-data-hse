@@ -41,7 +41,7 @@ public class Driver extends Configured implements Tool {
 
         String inputDirPath = args[0];
 
-        // first job
+        // 1 job
         Configuration conf = new Configuration();
         Job job1 = Job.getInstance(conf, "AverageWords");
         job1.setJarByClass(Driver.class);
@@ -59,7 +59,7 @@ public class Driver extends Configured implements Tool {
         FileOutputFormat.setOutputPath(job1, aggregateOutputPath);
         job1.waitForCompletion(true);
 
-        //second job
+        // 2 job
         Configuration conf2 = new Configuration();
         Job job2 = Job.getInstance(conf2);
         job2.setSortComparatorClass(DecreasingTextComparator.class);
@@ -77,6 +77,25 @@ public class Driver extends Configured implements Tool {
         Path deathsOutputPath = new Path(args[1] + "/deaths");
         FileOutputFormat.setOutputPath(job2, deathsOutputPath);
         job2.waitForCompletion(true);
+
+        // 3 job
+        Configuration conf3 = new Configuration();
+        Job job3 = Job.getInstance(conf3);
+        job3.setSortComparatorClass(DecreasingTextComparator.class);
+        job3.setJarByClass(Driver.class);
+        job3.setMapperClass(EqualsMapper.class);
+        job3.setMapOutputKeyClass(Text.class);
+        job3.setMapOutputValueClass(Text.class);
+        job3.setNumReduceTasks(0);
+        job3.setOutputKeyClass(Text.class);
+        job3.setOutputValueClass(Text.class);
+        job3.setInputFormatClass(TextInputFormat.class);
+        job3.setOutputFormatClass(TextOutputFormat.class);
+        Path inputPath = new Path(inputDirPath);
+        FileInputFormat.setInputPaths(job3, inputPath);
+        Path outputPath = new Path(args[1] + "/all");
+        FileOutputFormat.setOutputPath(job3, outputPath);
+        job3.waitForCompletion(true);
 
         return 0;
     }
