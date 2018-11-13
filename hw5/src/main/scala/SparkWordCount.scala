@@ -3,8 +3,9 @@
   */
 
 
-import java.io.BufferedOutputStream
+import java.io.{BufferedOutputStream, PrintWriter}
 
+import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.{SparkContext, _}
@@ -19,11 +20,13 @@ object SparkWordCount {
 
 
     val wordsRDD = input.flatMap(line ⇒ line.split("\t").tail)
-      .flatMap(_.split(" "))
-    val pairsRDD = wordsRDD.flatMap(str => {
-      if (str.length > 0 && isCapitalLetter(str.charAt(0))) Some(str.charAt(0) -> 1) else None
-    })
-    pairsRDD.reduceByKey(_ + _).saveAsTextFile("/user/esidorov/hw5_1")
+      .flatMap(_.split(" ")).filter(str => str.nonEmpty && isCapitalLetter(str.charAt(0)))
+
+    val fs = FileSystem.get(new Configuration())
+    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5_1")))
+    outputWriter.println(wordsRDD.count())
+    outputWriter.flush()
+    outputWriter.close()
   }
 
 
