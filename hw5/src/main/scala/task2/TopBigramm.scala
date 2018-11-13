@@ -30,7 +30,7 @@ object TopBigramm {
       })
     })
 
-    val top10Bigramm = bigramsRDD.reduceByKey(_ + _).sortBy(_._2).take(10)
+    val top10Bigramm = bigramsRDD.reduceByKey(_ + _).sortBy(_._2, ascending = false).take(10)
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task2")))
