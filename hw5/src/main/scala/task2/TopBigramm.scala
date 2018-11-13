@@ -35,8 +35,8 @@ object TopBigramm {
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task2")))
     top10Bigramm.zipWithIndex.foreach {
-      case (idx, value) =>
-        outputWriter.write(s"$idx. $value")
+      case (value, idx) =>
+        outputWriter.write(s"${idx + 1}. $value")
         outputWriter.write("\n")
     }
     outputWriter.flush()
