@@ -23,6 +23,6 @@ object SparkWordCount {
     val pairsRDD = wordsRDD.map(str => {
       str.charAt(0) -> (if (Character.isUpperCase(str.charAt(0))) 1 else 0)
     })
-    pairsRDD.reduceByKey(_ + _).saveAsTextFile("/users/esidorov/hw5_1.txt")
+    pairsRDD.reduceByKey(_ + _).saveAsTextFile("/user/esidorov/hw5_1.txt")
   }
 }
