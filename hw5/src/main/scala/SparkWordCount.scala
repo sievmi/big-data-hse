@@ -20,9 +20,9 @@ object SparkWordCount {
 
     val wordsRDD = input.flatMap(line ⇒ line.split("\t").tail)
       .flatMap(_.split(" "))
-    val pairsRDD = wordsRDD.map(str => {
-      str.charAt(0) -> (if (Character.isUpperCase(str.charAt(0))) 1 else 0)
+    val pairsRDD = wordsRDD.flatMap(str => {
+      if (str.length > 0) Some(str.charAt(0) -> 1) else None
     })
-    pairsRDD.reduceByKey(_ + _).saveAsTextFile("/user/esidorov/hw5_1.txt")
+    pairsRDD.reduceByKey(_ + _).saveAsTextFile("/user/esidorov/hw5_1")
   }
 }
