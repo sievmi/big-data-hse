@@ -31,7 +31,7 @@ object StopWordsCount {
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task3")))
     outputWriter.write("and - ")
-    outputWriter.write(s"${stopWordsAccums("end").value}")
+    outputWriter.write(s"${stopWordsAccums("and").value}")
     outputWriter.write("the - ")
     outputWriter.write(s"${stopWordsAccums("the").value}")
     outputWriter.flush()
