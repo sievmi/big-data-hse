@@ -1,10 +1,12 @@
 package task3
 
-import java.io.PrintWriter
+import java.io.{File, PrintWriter}
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.{SparkConf, SparkContext}
+
+import scala.io.Source
 
 /**
   * Created by sievmi on 13.11.18  
@@ -17,7 +19,11 @@ object StopWordsCount {
 
     val input = sc.textFile("/data/wiki/en/articles")
 
-    val stopWordsAccums = Map("and" -> sc.longAccumulator("and accumulator"), "the" -> sc.longAccumulator("the accumulator"))
+    val stopWordsFile = new File("/home/pakhtyamov/stop_words_en.txt")
+    val stopWordsAccums = Source.fromFile(stopWordsFile).getLines().map(line => {
+      val word = line.trim
+      word -> sc.longAccumulator(word)
+    }).toMap
 
     val wordsRDD = input.flatMap(line ⇒ line.split("\t").tail)
       .flatMap(_.split(" "))
@@ -30,10 +36,11 @@ object StopWordsCount {
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task3")))
-    outputWriter.write("and - ")
-    outputWriter.write(s"${stopWordsAccums("and").value}")
-    outputWriter.write("the - ")
-    outputWriter.write(s"${stopWordsAccums("the").value}")
+    stopWordsAccums.foreach {
+      case (key, value) =>
+        outputWriter.write(s"$key ${value.value}")
+        outputWriter.write("\n")
+    }
     outputWriter.flush()
     outputWriter.close()
   }
