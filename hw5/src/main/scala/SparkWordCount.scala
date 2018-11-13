@@ -8,7 +8,7 @@ object SparkWordCount {
   def main(args: Array[String]) {
 
     // val sc = new SparkContext( "local", "Word Count", "/usr/local/spark", Nil, Map(), Map())
-    val conf: SparkConf = new SparkConf().setMaster("local").setAppName("local app")
+    val conf: SparkConf = new SparkConf().setMaster("yarn").setAppName("local app")
     val sc: SparkContext = new SparkContext(conf)
 
     /* local = master URL; Word Count = application name; */
