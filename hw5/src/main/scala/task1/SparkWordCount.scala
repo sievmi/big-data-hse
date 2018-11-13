@@ -22,7 +22,7 @@ object SparkWordCount {
     val wordsRDD = input.flatMap(line ⇒ line.split("\t").tail)
       .flatMap(_.split(" "))
 
-    val count = wordsRDD.filter(str => str.nonEmpty && isCapitalLetter(str.charAt(0)))
+    val count: Long = wordsRDD.filter(str => str.nonEmpty && isCapitalLetter(str.charAt(0))).count()
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task1")))
