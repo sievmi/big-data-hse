@@ -29,7 +29,21 @@ object TopBigramm {
         s"${charArray(idx)}${charArray(idx + 1)}" -> 1
       })
     })
-    
-    bigramsRDD.reduceByKey(_ + _).saveAsTextFile("hw5/task2")
+
+    val top10Bigramm = bigramsRDD.reduceByKey(_ + _).sortBy(_._2).take(10)
+
+    val fs = FileSystem.get(new Configuration())
+    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task2")))
+    top10Bigramm.zipWithIndex.foreach {
+      case (idx, value) =>
+        outputWriter.write(s"$idx. $value")
+        outputWriter.write("\n")
+    }
+    outputWriter.flush()
+    outputWriter.close()
+  }
+
+  def isEngLetter(letter: Character): Boolean = {
+    letter >= 'a' && letter <= 'z' || letter >= 'A' && letter <= 'Z'
   }
 }
