@@ -23,13 +23,13 @@ object TopBigramm {
       .flatMap(_.split(" "))
       .filter(_.length >= 2)
 
-    val bigramsRDD = wordsRDD.map(word => {
+    val bigramsRDD = wordsRDD.flatMap(word => {
       val charArray = word.toCharArray
       (1 until charArray.size - 1).map(idx => {
         s"${charArray(idx)}${charArray(idx + 1)}" -> 1
       })
     })
-
-    bigramsRDD.saveAsTextFile("hw5/task2")
+    
+    bigramsRDD.reduceByKey(_ + _).saveAsTextFile("hw5/task2")
   }
 }
