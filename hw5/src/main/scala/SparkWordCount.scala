@@ -18,12 +18,11 @@ object SparkWordCount {
     val input = sc.textFile("/data/wiki/en/articles")
 
 
-    val words = input.flatMap(line ⇒ line.split("\t").tail).flatMap(_.split(" "))
-    val count = words.count()
-
-    /*val fs = FileSystem.get(sc.hadoopConfiguration)
-    val output = fs.create(new Path("/user/esidorov/hw5_1.txt"))
-    val os = new BufferedOutputStream(output)
-    os.write(s"$count".getBytes("UTF-8"))*/
+    val wordsRDD = input.flatMap(line ⇒ line.split("\t").tail)
+      .flatMap(_.split(" "))
+    val pairsRDD = wordsRDD.map(str => {
+      str.charAt(0) -> (if (Character.isUpperCase(str.charAt(0))) 1 else 0)
+    })
+    pairsRDD.reduceByKey(_ + _).saveAsTextFile("/users/esidorov/hw5_1.txt")
   }
 }
