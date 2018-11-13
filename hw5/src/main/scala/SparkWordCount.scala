@@ -6,6 +6,7 @@
 import java.io.BufferedOutputStream
 
 import org.apache.hadoop.fs.Path
+import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.{SparkContext, _}
 
 object SparkWordCount {
@@ -14,23 +15,15 @@ object SparkWordCount {
     val conf: SparkConf = new SparkConf().setAppName("Wordcount").setMaster("yarn")
     val sc: SparkContext = new SparkContext(conf)
 
-    val input = sc.textFile("hdfs://data/wiki/en/articles")
+    val input = sc.textFile("/data/wiki/en/articles")
 
 
     val words = input.flatMap(line ⇒ line.split("\t").tail).flatMap(_.split(" "))
     val count = words.count()
 
-    import org.apache.hadoop.fs.FileSystem
-    // Hadoop Config is accessible from SparkContext// Hadoop Config is accessible from SparkContext
-
-    val fs = FileSystem.get(sc.hadoopConfiguration)
-
-    // Output file can be created from file system.
+    /*val fs = FileSystem.get(sc.hadoopConfiguration)
     val output = fs.create(new Path("/user/esidorov/hw5_1.txt"))
-
-    // But BufferedOutputStream must be used to output an actual text file.
     val os = new BufferedOutputStream(output)
-
-    os.write(s"$count".getBytes("UTF-8"))
+    os.write(s"$count".getBytes("UTF-8"))*/
   }
 }
