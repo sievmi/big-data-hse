@@ -17,23 +17,23 @@ object StopWordsCount {
 
     val input = sc.textFile("/data/wiki/en/articles")
 
-    val stopWordsAccums = sc.broadcast(Map("and" -> sc.longAccumulator("and accumulator"), "the" -> sc.longAccumulator("the accumulator")))
+    val stopWordsAccums = Map("and" -> sc.longAccumulator("and accumulator"), "the" -> sc.longAccumulator("the accumulator"))
 
     val wordsRDD = input.flatMap(line ⇒ line.split("\t").tail)
       .flatMap(_.split(" "))
 
     wordsRDD.map(word => {
-      if (stopWordsAccums.value.contains(word)) {
-        stopWordsAccums.value(word).add(1)
+      if (stopWordsAccums.contains(word)) {
+        stopWordsAccums(word).add(1)
       }
     }).count()
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task3")))
     outputWriter.write("and - ")
-    outputWriter.write(s"${stopWordsAccums.value("and").value}")
+    outputWriter.write(s"${stopWordsAccums("and").value}")
     outputWriter.write("the - ")
-    outputWriter.write(s"${stopWordsAccums.value("the").value}")
+    outputWriter.write(s"${stopWordsAccums("the").value}")
     outputWriter.flush()
     outputWriter.close()
   }
