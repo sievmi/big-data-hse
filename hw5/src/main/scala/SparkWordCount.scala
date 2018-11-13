@@ -2,28 +2,35 @@
   * Created by sievmi on 13.11.18  
   */
 
+
+import java.io.BufferedOutputStream
+
+import org.apache.hadoop.fs.Path
 import org.apache.spark.{SparkContext, _}
 
 object SparkWordCount {
   def main(args: Array[String]) {
 
-    // val sc = new SparkContext( "local", "Word Count", "/usr/local/spark", Nil, Map(), Map())
-    val conf: SparkConf = new SparkConf().setMaster("yarn").setAppName("local app")
+    val conf: SparkConf = new SparkConf().setMaster("yarn").setAppName("Wiki word count")
     val sc: SparkContext = new SparkContext(conf)
 
-    /* local = master URL; Word Count = application name; */
-    /* /usr/local/spark = Spark Home; Nil = jars; Map = environment */
-    /* Map = variables to work nodes */
-    /*creating an inputRDD to read text file (in.txt) through Spark context*/
-    val input = sc.textFile("hdfs://user/esidorov/input.txt")
-    /* Transform the inputRDD into countRDD */
+    val input = sc.textFile("hdfs://data/wiki/en/articles")
 
-    val count = input.flatMap(line ⇒ line.split(" "))
-      .map(word ⇒ (word, 1))
-      .reduceByKey(_ + _)
 
-    /* saveAsTextFile method is an action that effects on the RDD */
-    count.saveAsTextFile("outfile")
-    System.out.println("OK")
+    val words = input.flatMap(line ⇒ line.split("\t").tail).flatMap(_.split(" "))
+    val count = words.count()
+
+    import org.apache.hadoop.fs.FileSystem
+    // Hadoop Config is accessible from SparkContext// Hadoop Config is accessible from SparkContext
+
+    val fs = FileSystem.get(sc.hadoopConfiguration)
+
+    // Output file can be created from file system.
+    val output = fs.create(new Path("/user/esidorov/hw5_1.txt"))
+
+    // But BufferedOutputStream must be used to output an actual text file.
+    val os = new BufferedOutputStream(output)
+
+    os.write(s"$count".getBytes("UTF-8"))
   }
 }
