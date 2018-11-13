@@ -11,7 +11,9 @@ import org.apache.spark.{SparkContext, _}
 object SparkWordCount {
   def main(args: Array[String]) {
 
-    val conf: SparkConf = new SparkConf().setMaster("yarn").setAppName("Wiki word count")
+    val conf: SparkConf = new SparkConf().setAppName("Wordcount").setMaster("yarn")
+      .set("spark.hadoop.yarn.resourcemanager.hostname", "resourcemanager.fqdn")
+      .set("spark.hadoop.yarn.resourcemanager.address", "resourcemanager.fqdn:8032")
     val sc: SparkContext = new SparkContext(conf)
 
     val input = sc.textFile("hdfs://data/wiki/en/articles")
