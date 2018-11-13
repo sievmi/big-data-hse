@@ -26,7 +26,7 @@ object StopWordsCount {
       if (stopWordsAccums.value.contains(word)) {
         stopWordsAccums.value(word).add(1)
       }
-    })
+    }).count()
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task3")))
