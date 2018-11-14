@@ -17,18 +17,18 @@ object PopularBrowsersCountry {
     val inputIpLookupRDD = sc.textFile("/user/pakhtyamov/geoiplookup_10000/")
     val ip2CounryRDD = inputIpLookupRDD.flatMap(parseRowGeoIpLine)
 
-    val country2BrowserRDD = ip2CounryRDD.join(ip2BrowserRDD)
+    val browser2Country = ip2CounryRDD.join(ip2CounryRDD)
       .reduceByKey((first, second) => first._1 -> first._2)
       .map(_._2)
 
-    val topBrowsersRDD = country2BrowserRDD.groupByKey().map {
-      case (country, browsers) =>
-        val browsersCount = browsers.groupBy(s => s).map(d => d._1 -> d._2.size).toSeq.sortBy(_._2)
-        val total = browsersCount.map(_._2).sum
-        country -> browsersCount.map(d => d._1 -> (d._2 * 1.0 / total * 100)).reverse.mkString("; ")
+    val topCountriesRDD = browser2Country.groupByKey().map {
+      case (browser, countries) =>
+        val countriesCount = countries.groupBy(s => s).map(d => d._1 -> d._2.size).toSeq.sortBy(_._2)
+        val total = countriesCount.map(_._2).sum
+        browser -> countriesCount.map(d => d._1 -> (d._2 * 1.0 / total * 100)).reverse.mkString("; ")
     }
 
-    topBrowsersRDD.saveAsTextFile("/user/esidorov/hw5/task7")
+    topCountriesRDD.saveAsTextFile("/user/esidorov/hw5/task7")
   }
 
   def parseRowGeoIpLine(line: String): Option[(String, String)] = {
