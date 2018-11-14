@@ -28,7 +28,7 @@ object PopularBrowsersCountry {
         country -> browsersCount.map(d => d._1 -> (d._2 * 1.0 / total * 100)).reverse.mkString("; ")
     }
 
-    topBrowsersRDD.saveAsTextFile("/user/esidorov/hw5/task4")
+    topBrowsersRDD.saveAsTextFile("/user/esidorov/hw5/task7")
   }
 
   def parseRowGeoIpLine(line: String): Option[(String, String)] = {
