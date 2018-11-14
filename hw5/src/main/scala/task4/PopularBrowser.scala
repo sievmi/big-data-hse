@@ -18,7 +18,7 @@ object PopularBrowser {
     val ip2CounryRDD = inputIpLookupRDD.flatMap(parseRowGeoIpLine)
 
     val country2BrowserRDD = ip2CounryRDD.join(ip2BrowserRDD)
-      .reduceByKey((country, browser) => country._1 -> browser._1)
+      .reduceByKey((first, second) => first._1 -> first._2)
       .map(_._2)
 
     val topBrowsersRDD = country2BrowserRDD.groupByKey().map {
