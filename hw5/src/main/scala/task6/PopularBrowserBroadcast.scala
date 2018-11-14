@@ -5,7 +5,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 /**
   * Created by sievmi on 14.11.18  
   */
-class PopularBrowserBroadcast {
+object PopularBrowserBroadcast {
   def main(args: Array[String]) {
 
     val conf: SparkConf = new SparkConf().setAppName("Popular browsers with broadcast").setMaster("yarn")
