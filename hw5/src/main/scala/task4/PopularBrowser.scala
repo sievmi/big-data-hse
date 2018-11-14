@@ -17,7 +17,8 @@ object PopularBrowser {
     val inputIpLookupRDD = sc.textFile("/user/pakhtyamov/geoiplookup_10000/")
     val ip2CounryRDD = inputIpLookupRDD.flatMap(parseRowGeoIpLine)
 
-    ip2CounryRDD.join(ip2BrowserRDD).saveAsTextFile("/user/esidorov/hw5/task4")
+    ip2CounryRDD.saveAsTextFile("/user/esidorov/hw5/task4")
+    // ip2CounryRDD.join(ip2BrowserRDD).saveAsTextFile("/user/esidorov/hw5/task4")
 
     /*val country2BrowserRDD = ip2CounryRDD.join(ip2BrowserRDD)
       .reduceByKey((country, browser) => country._1 -> browser._1)
