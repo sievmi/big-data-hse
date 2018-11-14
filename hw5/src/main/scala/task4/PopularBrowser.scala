@@ -24,19 +24,10 @@ object PopularBrowser {
     val topBrowsersRDD = country2BrowserRDD.groupByKey().map {
       case (country, browsers) =>
         val browsersCount = browsers.groupBy(s => s).map(d => d._1 -> d._2.size).toSeq.sortBy(_._2)
-        country -> browsersCount.takeRight(3)
+        country -> browsersCount.takeRight(3).reverse.mkString("; ")
     }
 
     topBrowsersRDD.saveAsTextFile("/user/esidorov/hw5/task4")
-
-    /*val fs = FileSystem.get(new Configuration())
-    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/task4")))
-    ip2BrowserRDD.take(20).foreach(s => {
-      outputWriter.write(s.toString)
-      outputWriter.write("\n")
-    })
-    outputWriter.flush()
-    outputWriter.close()*/
   }
 
   def parseRowGeoIpLine(line: String): Option[(String, String)] = {
