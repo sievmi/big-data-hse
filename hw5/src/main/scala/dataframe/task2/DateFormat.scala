@@ -26,9 +26,7 @@ object DateFormat {
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task2")))
-
-    outputWriter.println(inputDF.columns.mkString(","))
-    outputWriter.println()
+    outputWriter.print(selected.collect().length)
     selected.head(5).foreach(outputWriter.println)
     outputWriter.flush()
     outputWriter.close()
