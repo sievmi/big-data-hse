@@ -28,7 +28,7 @@ object PopularBrowserBroadcast {
         country -> browsersCount.takeRight(3).reverse.mkString("; ")
     }
 
-    topBrowsersRDD.saveAsTextFile("/user/esidorov/hw5/task6")
+    topBrowsersRDD.saveAsTextFile("/user/esidorov/hw5/rdd/task6")
   }
 
   def parseRowGeoIpLine(line: String): Option[(String, String)] = {
