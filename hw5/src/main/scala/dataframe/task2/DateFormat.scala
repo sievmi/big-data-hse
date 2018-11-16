@@ -2,11 +2,12 @@ package dataframe.task2
 
 import java.io.PrintWriter
 
+import org.apache.commons.math3.stat.descriptive.summary.Product
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.{Encoders, SparkSession}
-import org.apache.spark.sql.functions.countDistinct
+import org.apache.spark.sql.{Encoders, Row, SparkSession}
+import org.apache.spark.sql.functions.{date_format, col, to_date}
 
 /**
   * Created by sievmi on 16.11.18  
@@ -22,17 +23,13 @@ object DateFormat {
     val inputDF = sqlContext.read.option("sep", "\t").schema(schema)
       .csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
 
-    val selected = inputDF.select("ip", "c1", "c2", "c3", "url")
+    val formattedDF = inputDF.select("ip", "date", "url", "c5", "status", "browser")
+      .withColumn("date", date_format(to_date(col("date"), "yyyymmddhhMMss"), "yyMMdddd"))
 
-    val fs = FileSystem.get(new Configuration())
-    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task2")))
-    outputWriter.print(selected.collect().length)
-    selected.head(5).foreach(outputWriter.println)
-    outputWriter.flush()
-    outputWriter.close()
+    formattedDF.rdd.saveAsTextFile("/user/esidorov/hw5/dataframes/task2")
   }
 
-  case class UserLog(ip: String, c1: String, c2: String, c3: String, url: String,
+  case class UserLog(ip: String, c1: String, c2: String, date: String, url: String,
                      c5: String, status: String, browser: String)
 
 }
