@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{Encoders, SQLContext, SparkSession}
+import org.apache.spark.sql.functions.countDistinct
 
 /**
   * Created by sievmi on 16.11.18  
@@ -21,7 +22,7 @@ object HttpStatus {
     val inputDF = sqlContext.read.option("sep", "\t").schema(schema)
       .csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
 
-    val selected = inputDF.select("status", "ip").filter(!_.anyNull)
+    val selected = inputDF.select("status", "ip").filter(!_.anyNull).groupBy("status").agg(countDistinct("ip")).as("count")
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task1")))
