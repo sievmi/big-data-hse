@@ -18,7 +18,7 @@ object IpUdf {
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext = SparkSession.builder().getOrCreate().sqlContext
 
-    val splitIp = (ip: String) => ip.split(".").map(_.toInt)
+    val splitIp = (ip: String) => ip.split(".").map(_.toInt).mkString(" ")
     val splitUdf = udf(splitIp)
 
     val userSchema = Encoders.product[User].schema
