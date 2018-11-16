@@ -20,7 +20,7 @@ object HttpStatus {
     val inputDF = sqlContext.read.csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
 
     val fs = FileSystem.get(new Configuration())
-    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/dataframes/task1")))
+    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task1")))
     outputWriter.println(inputDF.columns)
     outputWriter.flush()
     outputWriter.close()
