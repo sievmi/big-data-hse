@@ -1,10 +1,5 @@
 package dataframe.task2
 
-import java.io.PrintWriter
-
-import org.apache.commons.math3.stat.descriptive.summary.Product
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{Encoders, Row, SparkSession}
 import org.apache.spark.sql.functions.{date_format, col, to_date}
@@ -15,7 +10,7 @@ import org.apache.spark.sql.functions.{date_format, col, to_date}
 object DateFormat {
   def main(args: Array[String]) {
 
-    val conf: SparkConf = new SparkConf().setAppName("HTTP status").setMaster("yarn")
+    val conf: SparkConf = new SparkConf().setAppName("Date format").setMaster("yarn")
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext = SparkSession.builder().getOrCreate().sqlContext
 
