@@ -28,7 +28,7 @@ object HttpStatus {
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task1")))
     outputWriter.println(inputDF.columns.mkString(","))
     outputWriter.println()
-    selected.head(3).foreach(outputWriter.println)
+    selected.collect().foreach(outputWriter.println)
     outputWriter.flush()
     outputWriter.close()
   }
