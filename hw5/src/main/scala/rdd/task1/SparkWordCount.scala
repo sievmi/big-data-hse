@@ -1,4 +1,4 @@
-package task1
+package rdd.task1
 
 import java.io.PrintWriter
 

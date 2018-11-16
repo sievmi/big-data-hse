@@ -1,4 +1,4 @@
-package task6
+package rdd.task6
 
 import org.apache.spark.{SparkConf, SparkContext}
 

@@ -1,4 +1,4 @@
-package task5
+package rdd.task5
 
 /**
   * Created by sievmi on 14.11.18  
