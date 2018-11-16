@@ -16,7 +16,7 @@ object HostUdf {
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext = SparkSession.builder().getOrCreate().sqlContext
 
-    val sepHost = (url: String) => new URI("url").getHost
+    val sepHost = (url: String) => new URI(url).getHost
     val hostUdf = udf(sepHost)
 
     val schema = Encoders.product[UserLog].schema
