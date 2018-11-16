@@ -17,7 +17,7 @@ object HttpStatus {
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext = SparkSession.builder().getOrCreate().sqlContext
 
-    val inputDF = sqlContext.read.format("tsv")
+    val inputDF = sqlContext.read//.format("tsv")
       .option("delimiter", "\t")
       .load("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
 
