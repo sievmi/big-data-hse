@@ -21,7 +21,7 @@ object HttpStatus {
     val inputDF = sqlContext.read.option("sep", "\t").schema(schema)
       .csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
 
-    val selected = inputDF.select("ip", "status").filter(!_.anyNull)
+    val selected = inputDF.select("status", "ip").filter(!_.anyNull)
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task1")))
