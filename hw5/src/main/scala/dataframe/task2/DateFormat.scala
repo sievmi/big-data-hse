@@ -24,7 +24,7 @@ object DateFormat {
       .csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
 
     val formattedDF = inputDF.select("ip", "date", "url", "c5", "status", "browser")
-      .withColumn("date", to_date(col("date"), "yyyymmddhhMMss"))
+      .withColumn("date", to_date(col("date"), "yyyyMMddhhmmss"))
 
     formattedDF.rdd.saveAsTextFile("/user/esidorov/hw5/dataframes/task2")
   }
