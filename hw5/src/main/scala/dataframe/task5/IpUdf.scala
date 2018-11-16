@@ -1,9 +1,5 @@
 package dataframe.task5
 
-import java.io.PrintWriter
-
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{Encoders, Row, SparkSession}
 import org.apache.spark.sql.functions.{col, udf}
