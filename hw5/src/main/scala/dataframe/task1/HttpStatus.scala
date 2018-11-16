@@ -17,7 +17,9 @@ object HttpStatus {
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext = SparkSession.builder().getOrCreate().sqlContext
 
-    val inputDF = sqlContext.read.csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
+    val inputDF = sqlContext.read.format("tsv")
+      .option("delimiter", "\t")
+      .load("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task1")))
