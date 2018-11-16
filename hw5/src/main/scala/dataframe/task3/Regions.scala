@@ -18,15 +18,11 @@ object Regions {
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext = SparkSession.builder().getOrCreate().sqlContext
 
-    val logsSchema = Encoders.product[UserLog].schema
-    val rowLogsDF = sqlContext.read.option("sep", "\t").schema(logsSchema)
-      .csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
-
     val regionSchema = Encoders.product[Ip2Region].schema
     val regionsDF = sqlContext.read.option("sep", "\t").schema(regionSchema)
       .csv("/user/pakhtyamov/data/user_logs/ip_data_M/ipDataM.txt")
 
-    val ansDF = rowLogsDF.join(regionsDF, "ip").select("region", "ip").groupBy("region")
+    val ansDF = regionsDF.select("region", "ip").groupBy("region")
       .agg(countDistinct("ip")).as("count")
 
     val fs = FileSystem.get(new Configuration())

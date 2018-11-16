@@ -18,15 +18,11 @@ object Ages {
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext = SparkSession.builder().getOrCreate().sqlContext
 
-    val logsSchema = Encoders.product[UserLog].schema
-    val rowLogsDF = sqlContext.read.option("sep", "\t").schema(logsSchema)
-      .csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
-
     val userSchema = Encoders.product[User].schema
     val usersDF = sqlContext.read.option("sep", "\t").schema(userSchema)
       .csv("/user/pakhtyamov/data/user_logs/user_data_M/userDataM")
 
-    val ansDF = rowLogsDF.join(usersDF, "ip").select("sex", "age", "ip").groupBy("sex", "age")
+    val ansDF = usersDF.select("sex", "age", "ip").groupBy("sex", "age")
       .agg(countDistinct("ip")).as("count")
 
     val fs = FileSystem.get(new Configuration())
