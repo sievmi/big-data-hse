@@ -31,6 +31,7 @@ object HttpStatus {
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task1")))
     outputWriter.println(s"Row size = ${inputDF.collect().length}")
     outputWriter.println(s"Selected size = ${selected.collect().length}")
+    outputWriter.println(s"Selected filtered size = ${filteredSelected.collect().length}")
     outputWriter.println(s"Ans distinct size = ${ansDfDistinct.collect().length}")
     outputWriter.println(s"Ans size = ${ans.collect().size}")
 
