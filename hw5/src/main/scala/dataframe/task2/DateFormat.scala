@@ -22,7 +22,7 @@ object DateFormat {
     val inputDF = sqlContext.read.option("sep", "\t").schema(schema)
       .csv("/user/pakhtyamov/data/user_logs/user_logs_M/logsLM.txt")
 
-    val selected = inputDF.select("c1", "c2", "c3").filter(!_.anyNull)
+    val selected = inputDF.select("ip", "c1", "c2", "c3", "url")
 
     val fs = FileSystem.get(new Configuration())
     val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task2")))
