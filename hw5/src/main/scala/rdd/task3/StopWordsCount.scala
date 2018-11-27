@@ -35,7 +35,7 @@ object StopWordsCount {
     }).count()
 
     val fs = FileSystem.get(new Configuration())
-    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/rdd/task3")))
+    val outputWriter = new PrintWriter(fs.create(new Path("./hw5/rdd/task3")))
     stopWordsAccums.foreach {
       case (key, value) =>
         outputWriter.write(s"$key ${value.value}")

@@ -27,7 +27,7 @@ object HostUdf {
     val ansDf = inputDF.withColumn("host", hostUdf(col("url")))
 
 
-    ansDf.rdd.saveAsTextFile("/user/esidorov/hw5/dataframes/task6")
+    ansDf.rdd.saveAsTextFile("./hw5/dataframes/task6")
   }
 
   case class UserLog(ip: String, c1: String, c2: String, c3: String, url: String,

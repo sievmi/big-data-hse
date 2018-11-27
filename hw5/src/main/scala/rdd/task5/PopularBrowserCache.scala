@@ -31,7 +31,7 @@ object PopularBrowserCache {
         country -> browsersCount.takeRight(3).reverse.mkString("; ")
     }
 
-    topBrowsersRDD.saveAsTextFile("/user/esidorov/hw5/rdd/task5")
+    topBrowsersRDD.saveAsTextFile("./hw5/rdd/task5")
   }
 
   def parseRowGeoIpLine(line: String): Option[(String, String)] = {

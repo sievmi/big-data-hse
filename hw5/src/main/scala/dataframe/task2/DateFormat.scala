@@ -21,7 +21,7 @@ object DateFormat {
     val formattedDF = inputDF.select("ip", "date", "url", "c5", "status", "browser")
       .withColumn("date", date_format(to_date(col("date"), "yyyyMMddHHmmss"), "yy-MM-dd"))
 
-    formattedDF.rdd.saveAsTextFile("/user/esidorov/hw5/dataframes/task2")
+    formattedDF.rdd.saveAsTextFile("./hw5/dataframes/task2")
   }
 
   case class UserLog(ip: String, c1: String, c2: String, date: String, url: String,

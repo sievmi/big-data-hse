@@ -31,7 +31,7 @@ object IpUdf {
       r.toSeq.init ++ r.getAs[String]("splitted").split(' ')))
     sqlContext.createDataFrame(newRDD, newSchema)
 
-    newRDD.saveAsTextFile("/user/esidorov/hw5/dataframes/task5")
+    newRDD.saveAsTextFile("./hw5/dataframes/task5")
   }
 
   case class UserLog(ip: String, c1: String, c2: String, c3: String, url: String,

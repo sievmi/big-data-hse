@@ -26,7 +26,7 @@ object Regions {
       .agg(countDistinct("ip")).as("count")
 
     val fs = FileSystem.get(new Configuration())
-    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task3")))
+    val outputWriter = new PrintWriter(fs.create(new Path("./hw5/dataframes/task3")))
 
     outputWriter.println(ansDF.columns.mkString(","))
     outputWriter.println()

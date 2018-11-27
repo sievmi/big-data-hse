@@ -26,7 +26,7 @@ object HttpStatus {
       .groupBy("status").agg(countDistinct("ip")).as("count")
 
     val fs = FileSystem.get(new Configuration())
-    val outputWriter = new PrintWriter(fs.create(new Path("/user/esidorov/hw5/dataframes/task1")))
+    val outputWriter = new PrintWriter(fs.create(new Path("./hw5/dataframes/task1")))
 
     outputWriter.println(inputDF.columns.mkString(","))
     outputWriter.println()
