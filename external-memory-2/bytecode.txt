@@ -1,0 +1,21 @@
+Compiled from "CacheTimer.java"
+public class CacheTimer {
+  public CacheTimer();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: iconst_3
+       1: istore_1
+       2: iconst_0
+       3: istore_2
+       4: iload_2
+       5: iload_1
+       6: if_icmpge     15
+       9: iinc          2, 1
+      12: goto          4
+      15: return
+}
